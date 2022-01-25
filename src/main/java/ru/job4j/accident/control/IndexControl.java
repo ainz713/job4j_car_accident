@@ -9,9 +9,16 @@ import java.util.List;
 
 @Controller
 public class IndexControl {
+
+    private final AccidentMem accidents;
+
+    public IndexControl(AccidentMem accidents) {
+        this.accidents = accidents;
+    }
+
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute(model.addAttribute("accidents", AccidentMem.instOf().findAllAccidents()));
+        model.addAttribute(model.addAttribute("accidents", accidents.findAllAccidents()));
         return "index";
     }
 }

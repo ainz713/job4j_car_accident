@@ -1,6 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,37 +22,25 @@
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Автонарушения
+                Редактирование инцидента
             </div>
             <div class="card-body">
-                <table id="table" class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>№</th>
-                        <th>Название</th>
-                        <th>Описание</th>
-                        <th>Адрес</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${accidents}" var="accident">
-                        <tr>
-                            <td>
-                                <c:out value="${accident.id}"/>
-                            </td>
-                            <td>
-                                <c:out value="${accident.name}"/>
-                            </td>
-                            <td>
-                                <c:out value="${accident.text}"/>
-                            </td>
-                            <td>
-                                <c:out value="${accident.address}"/>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+                <form action="<c:url value='/save'/>" method='POST'>
+                    <input type="hidden" name="id" value="${accident.id}">
+                    <div class="form-group">
+                        <label>Название:</label>
+                        <input type="text" class="form-control" name="name" value="${accident.name}">
+                    </div>
+                    <div class="form-group">
+                        <label>Описание:</label>
+                        <input type="text" class="form-control" name="text" value="${accident.text}">
+                    </div>
+                    <div class="form-group">
+                        <label>Адрес:</label>
+                        <input type="text" class="form-control" name="address" value="${accident.address}">
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Сохранить"/>
+                </form>
             </div>
         </div>
     </div>
