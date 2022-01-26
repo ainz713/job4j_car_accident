@@ -11,17 +11,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Repository
 public class AccidentMem {
 
-    private final static AccidentMem INST = new AccidentMem();
     private static final AtomicInteger ACCIDENT_ID = new AtomicInteger(4);
     private final Map<Integer, Accident> accidents = new HashMap<>();
 
     private AccidentMem() {
         accidents.put(1, new Accident(1, "Accident1", "Text1", "Address1"));
         accidents.put(2, new Accident(2, "Accident2", "Text2", "Address2"));
-    }
-
-    public static AccidentMem instOf() {
-        return INST;
     }
 
     public Collection<Accident> findAllAccidents() {
