@@ -24,6 +24,6 @@ public class AccidentService {
     }
 
     public Accident findByIdAccident(int id) {
-        return accidentMem.findByIdAccident(id);
+        return accidentMem.findAccidentById(id);
     }
 }
