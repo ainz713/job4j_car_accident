@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.service.AccidentService;
 
+
 @Controller
 public class AccidentControl {
 
@@ -19,7 +20,8 @@ public class AccidentControl {
     }
 
     @GetMapping("/create")
-    public String create() {
+    public String create(Model model) {
+        model.addAttribute("types", accidentService.findAllAccidentsTypes());
         return "accident/create";
     }
 
@@ -31,7 +33,8 @@ public class AccidentControl {
 
     @GetMapping("/update")
     public String edit(@RequestParam("id") int id, Model model) {
-        model.addAttribute("accident", accidentService.findByIdAccident(id));
+        model.addAttribute("accident", accidentService.findAccidentById(id));
+        model.addAttribute("types", accidentService.findAllAccidentsTypes());
         return "accident/update";
     }
 }
