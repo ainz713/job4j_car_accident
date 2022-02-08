@@ -1,4 +1,4 @@
-[![Build Status](https://app.travis-ci.com/ainz713/job4j_car_accident.svg?branch=main)](https://app.travis-ci.com/ainz713/job4j_car_accident)
+[![Build Status](https://app.travis-ci.com/ainz713/job4j_car_accident.svg?branch=master)](https://app.travis-ci.com/ainz713/job4j_car_accident)
 # job4j_car_accident
 
 Проект представляет собой базу нарушений ПДД.
