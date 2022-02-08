@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -45,6 +46,18 @@
                                 <c:forEach var="type" items="${types}">
                                     <option value="${type.id}"
                                             <c:if test="${type.id==accident.type.id}">selected</c:if>>${type.name}
+                                    </option>
+                                </c:forEach>
+                            </select>
+                    </tr>
+                    <tr>
+                        <td>Статьи:</td>
+                        <td>
+                            <select name="rIds" multiple>
+                                <c:forEach var="rule" items="${rules}">
+                                    <option value="${rule.id}"
+                                            <c:if test="${fn:contains(accident.rules,rule.id)}"
+                                            >selected</c:if>>${rule.name}
                                     </option>
                                 </c:forEach>
                             </select>
