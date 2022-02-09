@@ -55,10 +55,15 @@ public class AccidentMem {
         return rules.get(id);
     }
 
+    public AccidentType findTypeById(int id) {
+        return types.get(id);
+    }
+
     public void save(Accident accident, int[] rIds) {
         if (accident.getId() == 0) {
             accident.setId(ACCIDENT_ID.incrementAndGet());
         }
+        accident.setType(findTypeById(accident.getType().getId()));
         accident.setRules(findRulesByIds(rIds));
         accidents.put(accident.getId(), accident);
     }
