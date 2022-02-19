@@ -4,38 +4,46 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
-import ru.job4j.accident.repository.AccidentMem;
+import ru.job4j.accident.repository.AccidentJdbcTemplate;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.stream.Stream;
+import java.util.Optional;
 
 @Service
 public class AccidentService {
 
-    private final AccidentMem accidentMem;
+    private final AccidentJdbcTemplate accidentJdbc;
 
-    public AccidentService(AccidentMem accidentMem) {
-        this.accidentMem = accidentMem;
+    public AccidentService(AccidentJdbcTemplate accidentJdbc) {
+        this.accidentJdbc = accidentJdbc;
     }
 
     public Collection<Accident> findAllAccidents() {
-        return accidentMem.findAllAccidents();
+        return accidentJdbc.findAllAccidents();
     }
 
     public Collection<AccidentType> findAllAccidentsTypes() {
-        return accidentMem.findAllAccidentsTypes();
+        return accidentJdbc.findAllAccidentsTypes();
     }
 
     public Collection<Rule> findAllAccidentsRules() {
-        return accidentMem.findAllAccidentsRules();
+        return accidentJdbc.findAllAccidentsRules();
     }
 
-    public void save(Accident accident, String[] rIds) {
-       accidentMem.save(accident, Stream.of(rIds).mapToInt(Integer::parseInt).toArray());
+    public void save(Accident accident) {
+        accidentJdbc.save(accident);
     }
 
-    public Accident findAccidentById(int id) {
-        return accidentMem.findAccidentById(id);
+    public void initAccidentRules(Accident accident, String[] rIds) {
+        int[] ids = Arrays.stream(rIds)
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        accidentJdbc.findRulesByIds(ids)
+                .forEach(accident::addRule);
+    }
+
+    public Optional<Accident> findAccidentById(int id) {
+        return accidentJdbc.findAccidentById(id);
     }
 }
