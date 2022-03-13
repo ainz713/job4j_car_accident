@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
+import ru.job4j.accident.repository.AccidentHibernate;
 import ru.job4j.accident.repository.AccidentJdbcTemplate;
 
 import java.util.Arrays;
@@ -13,37 +14,37 @@ import java.util.Optional;
 @Service
 public class AccidentService {
 
-    private final AccidentJdbcTemplate accidentJdbc;
+    private final AccidentHibernate accidentHibernate;
 
-    public AccidentService(AccidentJdbcTemplate accidentJdbc) {
-        this.accidentJdbc = accidentJdbc;
+    public AccidentService(AccidentHibernate accidentHibernate) {
+        this.accidentHibernate = accidentHibernate;
     }
 
     public Collection<Accident> findAllAccidents() {
-        return accidentJdbc.findAllAccidents();
+        return accidentHibernate.findAllAccidents();
     }
 
     public Collection<AccidentType> findAllAccidentsTypes() {
-        return accidentJdbc.findAllAccidentsTypes();
+        return accidentHibernate.findAllAccidentsTypes();
     }
 
     public Collection<Rule> findAllAccidentsRules() {
-        return accidentJdbc.findAllAccidentsRules();
+        return accidentHibernate.findAllAccidentsRules();
     }
 
     public void save(Accident accident) {
-        accidentJdbc.save(accident);
+        accidentHibernate.save(accident);
     }
 
     public void initAccidentRules(Accident accident, String[] rIds) {
         int[] ids = Arrays.stream(rIds)
                 .mapToInt(Integer::parseInt)
                 .toArray();
-        accidentJdbc.findRulesByIds(ids)
+        accidentHibernate.findRulesByIds(ids)
                 .forEach(accident::addRule);
     }
 
-    public Optional<Accident> findAccidentById(int id) {
-        return accidentJdbc.findAccidentById(id);
+    public Collection<Accident> findAccidentById(int id) {
+        return accidentHibernate.findAccidentById(id);
     }
 }
