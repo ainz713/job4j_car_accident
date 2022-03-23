@@ -4,47 +4,55 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
-import ru.job4j.accident.repository.AccidentHibernate;
-import ru.job4j.accident.repository.AccidentJdbcTemplate;
+import ru.job4j.accident.repository.*;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AccidentService {
 
-    private final AccidentHibernate accidentHibernate;
+    private final AccidentRepository accidentRepository;
+    private final AccidentTypeRepository accidentTypeRepository;
+    private final RuleRepository ruleRepository;
 
-    public AccidentService(AccidentHibernate accidentHibernate) {
-        this.accidentHibernate = accidentHibernate;
+    public AccidentService(AccidentRepository accidentRepository,
+                           AccidentTypeRepository accidentTypeRepository,
+                           RuleRepository ruleRepository) {
+        this.accidentRepository = accidentRepository;
+        this.accidentTypeRepository = accidentTypeRepository;
+        this.ruleRepository = ruleRepository;
     }
 
     public Collection<Accident> findAllAccidents() {
-        return accidentHibernate.findAllAccidents();
+        List<Accident> accidents = new ArrayList<>();
+        accidentRepository.findAll().forEach(accidents::add);
+        return accidents;
     }
 
     public Collection<AccidentType> findAllAccidentsTypes() {
-        return accidentHibernate.findAllAccidentsTypes();
+        List<AccidentType> accidentTypes = new ArrayList<>();
+        accidentTypeRepository.findAll().forEach(accidentTypes::add);
+        return accidentTypes;
     }
 
     public Collection<Rule> findAllAccidentsRules() {
-        return accidentHibernate.findAllAccidentsRules();
+        List<Rule> rules = new ArrayList<>();
+        ruleRepository.findAll().forEach(rules::add);
+        return rules;
     }
 
     public void save(Accident accident) {
-        accidentHibernate.save(accident);
+        accidentRepository.save(accident);
     }
 
     public void initAccidentRules(Accident accident, String[] rIds) {
-        int[] ids = Arrays.stream(rIds)
+        Arrays.stream(rIds)
                 .mapToInt(Integer::parseInt)
-                .toArray();
-        accidentHibernate.findRulesByIds(ids)
+                .mapToObj(id -> ruleRepository.findById(id).get())
                 .forEach(accident::addRule);
     }
 
-    public Collection<Accident> findAccidentById(int id) {
-        return accidentHibernate.findAccidentById(id);
+    public Accident findAccidentById(int id) {
+        return accidentRepository.findById(id).get();
     }
 }
