@@ -27,6 +27,19 @@
                     <div class="col-md-8 my-auto">
                         <h4 style="margin-bottom: 0">Автонарушения</h4>
                     </div>
+                    <div class="col-md-4 my-auto">
+                        <div class="float-right">
+                            <ul class="nav" id="auth">
+                                <c:if test="${user != null}">
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="<c:url value='/logout'/>">
+                                                ${user.username} | Выйти
+                                        </a>
+                                    </li>
+                                </c:if>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-body pt-0 pb-0">
